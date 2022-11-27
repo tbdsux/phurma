@@ -9,7 +9,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <>
       <header className="mx-auto flex w-11/12 items-center justify-between py-3">
         <div>
-          <h1 className="text-xl font-extrabold tracking-tighter text-indigo-500">
+          <h1 className="text-xl font-extrabold tracking-tighter text-rose-500">
             phurma
           </h1>
           <p className="text-sm text-gray-700">
