@@ -7,13 +7,19 @@ interface Body {
 
 export default router
   .put(async (req, res) => {
-    const body: Body = req.body;
-    if (body.name === "") {
+    const { name }: Body = req.body;
+    if (name === "") {
       res.status(400).send({ error: true, message: "No project name set." });
       return;
     }
 
-    const r = await projectBase.put({ ...body });
-    res.status(200).json(r);
+    const project = {
+      name,
+      created_at: new Date().getTime(),
+      forms: [],
+    };
+
+    const r = await projectBase.put(project);
+    res.status(200).json({ error: false, data: r });
   })
   .handle();

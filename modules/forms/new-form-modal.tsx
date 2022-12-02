@@ -1,43 +1,42 @@
 import { Dialog } from "@headlessui/react";
 import { PlusCircleIcon } from "@heroicons/react/20/solid";
-import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { mutate } from "swr";
 import BaseModal from "../../components/Modal";
-import { APIResponse } from "../../typings/api";
-import { ProjectProps } from "./types";
+import { useProject } from "../projects/context";
 
-export interface NewProjectModalProps {
+export interface NewFormModalProps {
   isOpen: boolean;
   closeModal: () => void;
 }
 
-const NewProjectModal = ({ isOpen, closeModal }: NewProjectModalProps) => {
-  const router = useRouter();
+const NewFormModal = ({ isOpen, closeModal }: NewFormModalProps) => {
+  const { project } = useProject();
 
   const [creating, setCreating] = useState(false);
-  const inputProjectName = useRef<HTMLInputElement>(null);
+  const inputFormName = useRef<HTMLInputElement>(null);
 
-  const createProject = async () => {
-    if (!inputProjectName.current) return;
+  const createForm = async () => {
+    if (!inputFormName.current) return;
 
-    const name = inputProjectName.current.value ?? "";
+    const name = inputFormName.current.value ?? "";
     if (name == "") {
-      toast.warn("Missing project name in input.");
+      toast.warn("Missing form name in input.");
       return;
     }
 
     setCreating(true);
 
-    const r = await fetch("/api/projects/create", {
-      method: "PUT",
+    const r = await fetch(`/api/projects/${project?.key}`, {
+      method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({ name }),
     });
 
-    const data: APIResponse<ProjectProps> = await r.json();
+    const data = await r.json();
     setCreating(false);
 
     if (!r.ok) {
@@ -45,8 +44,11 @@ const NewProjectModal = ({ isOpen, closeModal }: NewProjectModalProps) => {
       return;
     }
 
-    toast.success("Successfully created new project");
-    router.push(`/p/${data.data?.key}`);
+    toast.success("Successfully created new form.");
+    inputFormName.current.value = "";
+    mutate(`/api/projects/${project?.key}`);
+
+    closeModal();
   };
 
   return (
@@ -56,31 +58,31 @@ const NewProjectModal = ({ isOpen, closeModal }: NewProjectModalProps) => {
       className="max-w-xl rounded-xl bg-white p-8 text-left"
     >
       <Dialog.Title className="text-xl font-extrabold text-rose-500">
-        Create New Project
+        Create New Form
       </Dialog.Title>
       <Dialog.Description className="text-gray-600">
-        Group forms by creating a project
+        Create forms which you will use to send messages / data to.
       </Dialog.Description>
 
-      <Dialog.Panel className="mx-auto mt-6 w-11/12">
+      <Dialog.Panel className="mx-auto mt-3 w-11/12">
         <div className="my-2 flex flex-col">
-          <label htmlFor="name" className="text-gray-700">
-            Project Name
+          <label htmlFor="name" className="text-sm text-gray-700">
+            Form Name
           </label>
           <input
             type="text"
             name="name"
             id="name"
-            className="rounded-xl border py-2 px-4"
-            placeholder="My amazing project"
-            ref={inputProjectName}
+            className="rounded-xl border py-2 px-4 text-sm"
+            placeholder="The form in my project"
+            ref={inputFormName}
           />
         </div>
         <div className="my-2 text-right">
           <button
-            onClick={createProject}
             disabled={creating}
-            className="inline-flex items-center rounded-xl bg-rose-400 py-3 px-8 font-medium text-white duration-300 hover:bg-rose-500 disabled:opacity-80 disabled:hover:bg-rose-400"
+            onClick={createForm}
+            className="inline-flex items-center rounded-xl bg-rose-400 py-2 px-8 font-medium text-white duration-300 hover:bg-rose-500 disabled:opacity-80 disabled:hover:bg-rose-400"
           >
             <PlusCircleIcon className="mr-1 h-4 w-4" aria-hidden="true" />
             <small className="uppercase">
@@ -93,4 +95,4 @@ const NewProjectModal = ({ isOpen, closeModal }: NewProjectModalProps) => {
   );
 };
 
-export default NewProjectModal;
+export default NewFormModal;

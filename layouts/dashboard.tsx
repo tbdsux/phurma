@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 export interface DashboardLayoutProps {
@@ -8,14 +9,14 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   return (
     <>
       <header className="mx-auto flex w-11/12 items-center justify-between py-3">
-        <div>
+        <Link href="/">
           <h1 className="text-xl font-extrabold tracking-tighter text-rose-500">
             phurma
           </h1>
           <p className="text-sm text-gray-700">
             Integrate your forms with an api
           </p>
-        </div>
+        </Link>
 
         <a
           title="Project Repository"
