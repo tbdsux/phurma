@@ -1,7 +1,18 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
 micros:
-    - name: phurma
-      src: .
-      engine: next
-      primary: true
+  - name: phurma
+    src: ./phurma
+    engine: next
+    primary: true
+
+  - name: forms-api
+    src: ./f
+    engine: custom
+    commands:
+      - go get
+      - go build .
+    run: ./f
+    include:
+      - f
+    path: f
