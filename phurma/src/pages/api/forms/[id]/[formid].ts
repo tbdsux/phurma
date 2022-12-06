@@ -1,8 +1,12 @@
+import Router from "@ootiq/next-api-router";
+import { ObjectType } from "deta/dist/types/types/basic";
 import { getFormBase, projectBase } from "../../../../lib/deta";
-import { router } from "../../../../lib/router";
 import { join } from "../../../../lib/utils";
 
-export default router
+const formsIdApi = new Router()
+  .all((req, res) => {
+    res.status(405).json({ error: true, message: "Method not allowed." });
+  })
   .get(async (req, res) => {
     const { id, formid } = req.query;
 
@@ -14,10 +18,19 @@ export default router
     const projectId = join(id);
     const formId = join(formid);
 
-    const project = projectBase.get(projectId);
+    const project = (await projectBase.get(projectId)) as ObjectType;
     if (project == null) {
       res.status(404).json({ error: true, message: "Unknown project." });
       return;
+    }
+
+    const projectForms = project.forms as ObjectType[];
+    if (projectForms) {
+      const c = projectForms.filter((x) => x.id === formId);
+      if (c.length === 0) {
+        res.status(404).json({ error: true, message: "Unknown form." });
+        return;
+      }
     }
 
     const base = getFormBase(formId);
@@ -32,3 +45,5 @@ export default router
     res.status(200).json({ error: false, data: { formId, items: allItems } });
   })
   .handle();
+
+export default formsIdApi;

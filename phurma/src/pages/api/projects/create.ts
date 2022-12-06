@@ -1,11 +1,14 @@
+import Router from "@ootiq/next-api-router";
 import { projectBase } from "../../../lib/deta";
-import { router } from "../../../lib/router";
 
 interface Body {
   name: string;
 }
 
-export default router
+const createProjectApi = new Router()
+  .all((req, res) => {
+    res.status(405).json({ error: true, message: "Method not allowed." });
+  })
   .put(async (req, res) => {
     const { name }: Body = req.body;
     if (name === "") {
@@ -16,10 +19,11 @@ export default router
     const project = {
       name,
       created_at: new Date().getTime(),
-      forms: [],
     };
 
     const r = await projectBase.put(project);
     res.status(200).json({ error: false, data: r });
   })
   .handle();
+
+export default createProjectApi;

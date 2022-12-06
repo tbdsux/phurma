@@ -41,3 +41,4 @@ next-env.d.ts
 
 # go build files
 tmp
+f/f

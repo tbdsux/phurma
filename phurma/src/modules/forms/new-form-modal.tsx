@@ -12,7 +12,7 @@ export interface NewFormModalProps {
 }
 
 const NewFormModal = ({ isOpen, closeModal }: NewFormModalProps) => {
-  const { project } = useProject();
+  const { project, forms } = useProject();
 
   const [creating, setCreating] = useState(false);
   const inputFormName = useRef<HTMLInputElement>(null);
@@ -26,10 +26,17 @@ const NewFormModal = ({ isOpen, closeModal }: NewFormModalProps) => {
       return;
     }
 
+    // check if form name already exists
+    const c = forms?.filter((f) => f.name === name);
+    if (c && c.length > 0) {
+      toast.error(`Form with name: ${name} already exists.`);
+      return;
+    }
+
     setCreating(true);
 
-    const r = await fetch(`/api/projects/${project?.key}`, {
-      method: "POST",
+    const r = await fetch(`/api/forms/${project?.key}`, {
+      method: "PUT",
       headers: {
         "content-type": "application/json",
       },
@@ -40,13 +47,14 @@ const NewFormModal = ({ isOpen, closeModal }: NewFormModalProps) => {
     setCreating(false);
 
     if (!r.ok) {
+      inputFormName.current.value = "";
       toast.error(data.message);
       return;
     }
 
     toast.success("Successfully created new form.");
     inputFormName.current.value = "";
-    mutate(`/api/projects/${project?.key}`);
+    mutate(`/api/forms/${project?.key}`);
 
     closeModal();
   };

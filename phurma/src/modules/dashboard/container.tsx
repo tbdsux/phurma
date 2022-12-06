@@ -1,10 +1,14 @@
 import Link from "next/link";
 import useSWR from "swr";
+import { fetcher } from "../../lib/fetcher";
 import { APIResponse } from "../../typings/api";
 import { ProjectProps } from "../projects/types";
 
 const ProjectsContainer = () => {
-  const { data } = useSWR<APIResponse<ProjectProps[]>>("/api/projects");
+  const { data } = useSWR<APIResponse<ProjectProps[]>>(
+    "/api/projects",
+    fetcher
+  );
 
   return (
     <div className="grid grid-cols-4 gap-12">

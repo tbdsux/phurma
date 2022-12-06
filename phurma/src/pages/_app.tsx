@@ -3,15 +3,13 @@ import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { SWRConfig } from "swr";
-import { fetcher } from "../lib/fetcher";
 import "../styles/globals.css";
 
 const karla = Karla({ subsets: ["latin"] });
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SWRConfig value={{ fetcher: fetcher }}>
+    <>
       <style jsx global>{`
         :root {
           --font-karla: ${karla.style.fontFamily};
@@ -36,6 +34,6 @@ export default function App({ Component, pageProps }: AppProps) {
         pauseOnHover
         theme="colored"
       />
-    </SWRConfig>
+    </>
   );
 }

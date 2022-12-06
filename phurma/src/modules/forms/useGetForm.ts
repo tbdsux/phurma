@@ -1,15 +1,12 @@
 import useSWR from "swr";
+import { fetcher } from "../../lib/fetcher";
 import { APIResponse } from "../../typings/api";
-import { useProject } from "../projects/context";
 import { ResponsesProps } from "../responses/types";
 
-const useGetForm = () => {
-  const { project, selectedForm } = useProject();
-
+const useGetForm = (projectKey?: string, formId?: string) => {
   const { data } = useSWR<APIResponse<ResponsesProps>>(
-    project && selectedForm
-      ? `/api/projects/${project.key}/${selectedForm.id}`
-      : undefined
+    projectKey && formId ? `/api/forms/${projectKey}/${formId}` : null,
+    fetcher
   );
 
   return data?.data;

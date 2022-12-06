@@ -1,7 +1,10 @@
+import Router from "@ootiq/next-api-router";
 import { projectBase } from "../../../lib/deta";
-import { router } from "../../../lib/router";
 
-export default router
+const projectsApi = new Router()
+  .all((req, res) => {
+    res.status(405).json({ error: true, message: "Method not allowed." });
+  })
   .get(async (req, res) => {
     let r = await projectBase.fetch();
     let allItems = r.items;
@@ -14,3 +17,5 @@ export default router
     res.status(200).json({ error: false, data: allItems });
   })
   .handle();
+
+export default projectsApi;

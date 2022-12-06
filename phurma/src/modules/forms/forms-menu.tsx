@@ -5,7 +5,7 @@ import { useProject } from "../projects/context";
 
 const FormsMenu = () => {
   const {
-    project,
+    forms,
     selectedForm: selected,
     setSelectedForm: setSelected,
   } = useProject();
@@ -58,36 +58,43 @@ const FormsMenu = () => {
                 )}
               </Listbox.Option>
 
-              {project?.forms
-                .sort((x, y) => y.created_at - x.created_at)
-                .map((project, idx) => (
-                  <Listbox.Option
-                    key={idx}
-                    className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? "bg-rose-100 text-rose-900" : "text-gray-900"
-                      }`
-                    }
-                    value={project}
-                  >
-                    {({ selected }) => (
-                      <>
-                        <span
-                          className={`block truncate ${
-                            selected ? "font-medium" : "font-normal"
-                          }`}
-                        >
-                          {project.name}
-                        </span>
-                        {selected ? (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-rose-600">
-                            <CheckIcon className="h-4 w-4" aria-hidden="true" />
+              {forms ? (
+                forms
+                  .sort((x, y) => y.created_at - x.created_at)
+                  .map((project, idx) => (
+                    <Listbox.Option
+                      key={idx}
+                      className={({ active }) =>
+                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                          active ? "bg-rose-100 text-rose-900" : "text-gray-900"
+                        }`
+                      }
+                      value={project}
+                    >
+                      {({ selected }) => (
+                        <>
+                          <span
+                            className={`block truncate ${
+                              selected ? "font-medium" : "font-normal"
+                            }`}
+                          >
+                            {project.name}
                           </span>
-                        ) : null}
-                      </>
-                    )}
-                  </Listbox.Option>
-                ))}
+                          {selected ? (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-rose-600">
+                              <CheckIcon
+                                className="h-4 w-4"
+                                aria-hidden="true"
+                              />
+                            </span>
+                          ) : null}
+                        </>
+                      )}
+                    </Listbox.Option>
+                  ))
+              ) : (
+                <></>
+              )}
             </Listbox.Options>
           </Transition>
         </div>

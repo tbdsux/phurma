@@ -1,7 +1,6 @@
 export interface FormProps {
   name: string;
-  id: string; // nanoid generated
+  key?: string; // auto added by deta
   created_at: number;
+  projectKey: string; // reference to the parent project
 }
-
-export const FormPropsKeys = ["name", "id", "created_at"];
