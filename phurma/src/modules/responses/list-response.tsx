@@ -1,5 +1,6 @@
-import { ArrowDownTrayIcon, TrashIcon } from "@heroicons/react/20/solid";
+import { ArrowDownTrayIcon } from "@heroicons/react/20/solid";
 import { useProject } from "../projects/context";
+import DeleteResponse from "./delete-response";
 import { ResponseItem } from "./types";
 
 interface ListResponseProps {
@@ -43,7 +44,9 @@ const ListResponse = ({ responses, keys }: ListResponseProps) => {
                               key={f.file_id}
                               className="my-0.5 inline-flex items-center"
                             >
-                              <p className="truncate">{f.filename}</p>
+                              <p className="truncate rounded-xl bg-gray-200 px-2 py-0.5 text-sm">
+                                {f.filename}
+                              </p>
                               <a
                                 download={f.filename}
                                 href={`${selectedForm?.url.replace(
@@ -68,12 +71,7 @@ const ListResponse = ({ responses, keys }: ListResponseProps) => {
                   )}
 
                   <td className="border-b px-3">
-                    <button
-                      title="Delete"
-                      className="inline-flex items-center rounded-md bg-red-400 p-1 text-white duration-300 hover:bg-red-500"
-                    >
-                      <TrashIcon aria-hidden="true" className="h-4 w-4" />
-                    </button>
+                    <DeleteResponse responseId={r.key} />
                   </td>
                 </tr>
               ))}
