@@ -1,5 +1,6 @@
 import useGetForm from "../forms/useGetForm";
 import { useProject } from "../projects/context";
+import ListResponse from "./list-response";
 
 const ResponsesContainer = () => {
   const { project, selectedForm } = useProject();
@@ -8,7 +9,15 @@ const ResponsesContainer = () => {
   return (
     <div className="mt-6">
       {project && selectedForm ? (
-        <div>{JSON.stringify(responses)}</div>
+        <div>
+          <p className="text-right text-sm text-gray-700">{selectedForm.url}</p>
+
+          {responses ? (
+            <ListResponse responses={responses.items} keys={responses.keys} />
+          ) : (
+            <></>
+          )}
+        </div>
       ) : (
         <p className="text-sm text-gray-600">
           Select a form to view the responses....

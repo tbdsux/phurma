@@ -1,5 +1,6 @@
 import Router from "@ootiq/next-api-router";
 import { formsBase, projectBase } from "../../../../lib/deta";
+import { baseFormUrl } from "../../../../lib/server";
 import { join } from "../../../../lib/utils";
 
 const formsApi = new Router()
@@ -25,6 +26,10 @@ const formsApi = new Router()
     }
 
     const { items } = await formsBase.fetch({ projectKey });
+
+    items.forEach((item) => {
+      item.url = baseFormUrl + `/${item.key}`;
+    });
 
     res.status(200).json({ error: false, data: items });
   })

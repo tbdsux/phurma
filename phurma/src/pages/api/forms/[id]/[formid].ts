@@ -42,7 +42,28 @@ const formsIdApi = new Router()
       allItems.push(...r.items);
     }
 
-    res.status(200).json({ error: false, data: { formId, items: allItems } });
+    let itemKeys: Record<string, "form" | "file"> = {};
+
+    for (const i of allItems) {
+      const formKeys = Object.keys(i.content as Record<string, any>);
+      for (const x of formKeys) {
+        if (!Object.keys(itemKeys).includes(x)) {
+          itemKeys[x] = "form";
+        }
+      }
+
+      const fileKeys = Object.keys(i.files as Record<string, any>);
+      for (const x of fileKeys) {
+        if (!Object.keys(itemKeys).includes(x)) {
+          itemKeys[x] = "file";
+        }
+      }
+    }
+
+    res.status(200).json({
+      error: false,
+      data: { formId, items: allItems, keys: itemKeys },
+    });
   })
   .handle();
 
