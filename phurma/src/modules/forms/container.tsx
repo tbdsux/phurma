@@ -1,8 +1,9 @@
-import useGetForm from "../forms/useGetForm";
 import { useProject } from "../projects/context";
-import ListResponse from "./list-response";
+import ListResponse from "../responses/list-response";
+import CopyForm from "./copy-form";
+import useGetForm from "./useGetForm";
 
-const ResponsesContainer = () => {
+const FormsContainer = () => {
   const { project, selectedForm } = useProject();
   const responses = useGetForm(project?.key, selectedForm?.key);
 
@@ -10,7 +11,7 @@ const ResponsesContainer = () => {
     <div className="mt-6">
       {project && selectedForm ? (
         <div>
-          <p className="text-right text-sm text-gray-700">{selectedForm.url}</p>
+          <CopyForm />
 
           {responses ? (
             <ListResponse responses={responses.items} keys={responses.keys} />
@@ -27,4 +28,4 @@ const ResponsesContainer = () => {
   );
 };
 
-export default ResponsesContainer;
+export default FormsContainer;

@@ -5,9 +5,9 @@ import useSWR from "swr";
 import DashboardLayout from "../../layouts/dashboard";
 import { fetcher } from "../../lib/fetcher";
 import { APIResponse } from "../../typings/api";
+import FormsContainer from "../forms/container";
 import FormsMenu from "../forms/forms-menu";
 import NewForm from "../forms/new-form";
-import ResponsesContainer from "../responses/container";
 import ProjectsProvider from "./context";
 import { ProjectProps } from "./types";
 
@@ -52,7 +52,7 @@ const ProjectPage = ({ statusCode, data: projectData }: ProjectPageProps) => {
           </div>
         </div>
 
-        <ResponsesContainer />
+        <FormsContainer />
       </ProjectsProvider>
     </DashboardLayout>
   );
