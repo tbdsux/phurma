@@ -6,8 +6,7 @@ import DashboardLayout from "../../layouts/dashboard";
 import { fetcher } from "../../lib/fetcher";
 import { APIResponse } from "../../typings/api";
 import FormsContainer from "../forms/container";
-import FormsMenu from "../forms/forms-menu";
-import NewForm from "../forms/new-form";
+import FormActions from "../forms/form-actions";
 import ProjectsProvider from "./context";
 import { ProjectProps } from "./types";
 
@@ -46,10 +45,7 @@ const ProjectPage = ({ statusCode, data: projectData }: ProjectPageProps) => {
             {data.data?.name}
           </h3>
 
-          <div className="inline-flex items-center justify-between">
-            <FormsMenu />
-            <NewForm />
-          </div>
+          <FormActions />
         </div>
 
         <FormsContainer />

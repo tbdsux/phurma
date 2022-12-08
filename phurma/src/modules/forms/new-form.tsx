@@ -11,7 +11,7 @@ const NewForm = () => {
 
       <button
         onClick={open}
-        className="inline-flex items-center rounded-xl bg-rose-400 py-2 px-8 text-white duration-300 hover:bg-rose-500"
+        className="m-1 inline-flex items-center rounded-xl bg-rose-400 py-2 px-8 text-white duration-300 hover:bg-rose-500"
       >
         <DocumentPlusIcon className="mr-1 h-4 w-4" />
         <small className="font-medium">New Form</small>
