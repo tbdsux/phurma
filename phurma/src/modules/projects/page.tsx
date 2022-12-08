@@ -1,4 +1,5 @@
 import { NextSeo } from "next-seo";
+import Error from "next/error";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import DashboardLayout from "../../layouts/dashboard";
@@ -10,26 +11,26 @@ import ResponsesContainer from "../responses/container";
 import ProjectsProvider from "./context";
 import { ProjectProps } from "./types";
 
-// interface ProjectPageProps {
-//   statusCode: number;
-//   data?: APIResponse<ProjectProps>;
-// }
+interface ProjectPageProps {
+  statusCode: number;
+  data?: APIResponse<ProjectProps>;
+}
 
-const ProjectPage = () => {
+const ProjectPage = ({ statusCode, data: projectData }: ProjectPageProps) => {
   const router = useRouter();
   const { id } = router.query;
 
   const { data } = useSWR<APIResponse<ProjectProps>>(
     id ? `/api/projects/${id}` : null,
-    fetcher
-    // {
-    //   fallbackData: projectData,
-    // }
+    fetcher,
+    {
+      fallbackData: projectData,
+    }
   );
 
-  // if (statusCode != 200) {
-  //   return <Error statusCode={statusCode} />;
-  // }
+  if (statusCode != 200) {
+    return <Error statusCode={statusCode} />;
+  }
 
   if (!data) {
     return <></>;
