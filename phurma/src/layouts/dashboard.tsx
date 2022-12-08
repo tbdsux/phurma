@@ -20,7 +20,9 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
         <a
           title="Project Repository"
-          href="https://github.com/"
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/TheBoringDude/phurma"
           className="opacity-80 duration-300 hover:opacity-100"
         >
           <svg

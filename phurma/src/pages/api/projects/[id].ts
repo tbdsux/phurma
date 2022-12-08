@@ -75,6 +75,10 @@ const projectIdApi = new Router()
 
     // delete project
     await projectBase.delete(projectId);
+
+    res
+      .status(200)
+      .json({ error: false, message: "Successfuly removed project." });
   })
 
   // update the project name

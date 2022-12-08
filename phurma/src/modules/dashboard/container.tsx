@@ -11,7 +11,7 @@ const ProjectsContainer = () => {
   );
 
   return (
-    <div className="grid grid-cols-4 gap-12">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12 2xl:grid-cols-5">
       {data?.data
         ?.sort((x, y) => y.created_at - x.created_at)
         .map((p) => (
