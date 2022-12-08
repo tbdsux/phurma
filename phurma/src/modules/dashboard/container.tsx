@@ -1,7 +1,7 @@
-import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "../../lib/fetcher";
 import { APIResponse } from "../../typings/api";
+import ListProject from "../projects/list-project";
 import { ProjectProps } from "../projects/types";
 
 const ProjectsContainer = () => {
@@ -15,13 +15,7 @@ const ProjectsContainer = () => {
       {data?.data
         ?.sort((x, y) => y.created_at - x.created_at)
         .map((p) => (
-          <Link
-            href={`/p/${p.key}`}
-            key={p.key}
-            className="rounded-xl bg-rose-400 py-8 px-6 text-white duration-300 hover:bg-rose-500"
-          >
-            <strong>{p.name}</strong>
-          </Link>
+          <ListProject key={p.key} project={p} />
         ))}
     </div>
   );

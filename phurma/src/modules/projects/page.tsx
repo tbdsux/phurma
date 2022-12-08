@@ -40,7 +40,7 @@ const ProjectPage = ({ statusCode, data: projectData }: ProjectPageProps) => {
       <ProjectsProvider project={data.data}>
         <NextSeo title={`${data.data?.name} | Project - phurma`} />
 
-        <div className="mt-6 flex items-center justify-between">
+        <div className="mt-6 flex flex-wrap items-center justify-between">
           <h3 className="text-xl font-extrabold tracking-tight text-rose-500">
             {data.data?.name}
           </h3>
