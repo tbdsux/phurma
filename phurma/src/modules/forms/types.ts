@@ -3,5 +3,10 @@ export interface FormProps {
   key: string; // auto added by deta
   created_at: number;
   projectKey: string; // reference to the parent project
+  allowFiles: boolean;
+  redirectUrl: string;
+}
+
+export interface APIFormProps extends FormProps {
   url: string;
 }

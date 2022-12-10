@@ -1,6 +1,8 @@
 import { Dialog } from "@headlessui/react";
 import BaseModal from "../../components/Modal";
 import { useProject } from "../projects/context";
+import FormSettingsUpdateCallback from "./form-settings-update-callback";
+import FormSettingsUpdateForm from "./forms-settings-update-form";
 
 interface FormSettingsModalProps {
   isOpen: boolean;
@@ -24,19 +26,11 @@ const FormSettingsModal = ({ isOpen, closeModal }: FormSettingsModalProps) => {
       </Dialog.Description>
 
       <Dialog.Panel className="mx-auto mt-3 w-11/12">
-        <div className="my-2 flex flex-col">
-          <label htmlFor="name" className="text-sm text-gray-700">
-            Form Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            className="rounded-xl border py-2 px-4 text-sm"
-            placeholder="The form in my project"
-            defaultValue={selectedForm?.name}
-          />
-        </div>
+        <FormSettingsUpdateForm />
+
+        <hr className="my-3" />
+
+        <FormSettingsUpdateCallback />
       </Dialog.Panel>
     </BaseModal>
   );
