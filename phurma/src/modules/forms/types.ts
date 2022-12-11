@@ -5,6 +5,7 @@ export interface FormProps {
   projectKey: string; // reference to the parent project
   allowFiles: boolean;
   redirectUrl: string;
+  url: string;
 }
 
 export interface APIFormProps extends FormProps {

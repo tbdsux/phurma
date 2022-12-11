@@ -4,12 +4,12 @@ import CopyForm from "./copy-form";
 import useGetForm from "./useGetForm";
 
 const FormsContainer = () => {
-  const { project, selectedForm } = useProject();
-  const responses = useGetForm(project?.key, selectedForm?.key);
+  const { project, form } = useProject();
+  const responses = useGetForm(project?.key, form?.key);
 
   return (
     <div className="mt-6">
-      {project && selectedForm ? (
+      {project && form ? (
         <div>
           <CopyForm />
 

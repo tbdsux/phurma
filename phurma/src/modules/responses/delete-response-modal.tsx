@@ -17,18 +17,18 @@ const DeleteResponseModal = ({
   closeModal,
   responseId,
 }: DeleteResponseModalProps) => {
-  const { project, selectedForm } = useProject();
+  const { project, selectedForm, form } = useProject();
   const [deleting, setDeleting] = useState(false);
 
   const deleteResponse = async () => {
-    if (!project || !selectedForm) {
+    if (!project || !selectedForm || !form) {
       return;
     }
 
     setDeleting(true);
 
     const r = await fetch(
-      `/api/responses/${project.key}/${selectedForm.key}/${responseId}`,
+      `/api/responses/${project.key}/${form.key}/${responseId}`,
       {
         method: "DELETE",
       }
@@ -43,7 +43,7 @@ const DeleteResponseModal = ({
     }
 
     toast.success("Successfully removed the response.");
-    mutate(`/api/forms/${project.key}/${selectedForm.key}`);
+    mutate(`/api/forms/${project.key}/${form.key}`);
   };
 
   return (

@@ -8,6 +8,7 @@ const FormsMenu = () => {
     forms,
     selectedForm: selected,
     setSelectedForm: setSelected,
+    form,
   } = useProject();
 
   return (
@@ -16,7 +17,7 @@ const FormsMenu = () => {
         <div className="relative">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="block truncate">
-              {selected ? selected.name : "Select a form..."}
+              {selected ? form?.name : "Select a form..."}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon
@@ -61,7 +62,7 @@ const FormsMenu = () => {
               {forms ? (
                 forms
                   .sort((x, y) => y.created_at - x.created_at)
-                  .map((project, idx) => (
+                  .map((form, idx) => (
                     <Listbox.Option
                       key={idx}
                       className={({ active }) =>
@@ -69,7 +70,7 @@ const FormsMenu = () => {
                           active ? "bg-rose-100 text-rose-900" : "text-gray-900"
                         }`
                       }
-                      value={project}
+                      value={form.key}
                     >
                       {({ selected }) => (
                         <>
@@ -78,7 +79,7 @@ const FormsMenu = () => {
                               selected ? "font-medium" : "font-normal"
                             }`}
                           >
-                            {project.name}
+                            {form.name}
                           </span>
                           {selected ? (
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-rose-600">

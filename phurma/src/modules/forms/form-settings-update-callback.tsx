@@ -1,11 +1,49 @@
 import { Switch } from "@headlessui/react";
 import { Cog8ToothIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { mutate } from "swr";
+import { useProject } from "../projects/context";
 
 const FormSettingsUpdateCallback = () => {
-  const [allowFiles, setAllowFiles] = useState(true);
+  const { project, selectedForm, setSelectedForm, forms, form } = useProject();
 
   const [updating, setUpdating] = useState(false);
+
+  const [allowFiles, setAllowFiles] = useState(
+    selectedForm && form ? form.allowFiles ?? true : true
+  );
+  const inputRedirectUrl = useRef<HTMLInputElement>(null);
+
+  const updateMisc = async () => {
+    if (!project || !selectedForm || !form) return;
+
+    const redirectUrl = inputRedirectUrl.current?.value ?? "";
+
+    const body = {
+      redirectUrl,
+      allowFiles,
+    };
+
+    setUpdating(true);
+    const r = await fetch(`/api/forms/${project.key}/${form.key}/misc`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+
+    const data = await r.json();
+    setUpdating(false);
+    if (!r.ok) {
+      toast.error(data.message);
+      return;
+    }
+
+    toast.success("Successfully updated form misc settings.");
+    await mutate(`/api/forms/${project.key}`);
+  };
 
   return (
     <div>
@@ -17,11 +55,13 @@ const FormSettingsUpdateCallback = () => {
           default response)
         </label>
         <input
+          ref={inputRedirectUrl}
           type="text"
           name="callback"
           id="callback"
           className="rounded-xl border py-2 px-4 text-sm"
           placeholder="Redirect / callback url"
+          defaultValue={form?.redirectUrl}
         />
       </div>
 
@@ -46,6 +86,7 @@ const FormSettingsUpdateCallback = () => {
 
       <div className="my-2 text-right">
         <button
+          onClick={updateMisc}
           disabled={updating}
           className="inline-flex items-center rounded-xl bg-rose-400 py-2 px-8 font-medium text-white duration-300 hover:bg-rose-500 disabled:opacity-80 disabled:hover:bg-rose-400"
         >

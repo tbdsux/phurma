@@ -5,23 +5,23 @@ import { mutate } from "swr";
 import { useProject } from "../projects/context";
 
 const FormSettingsUpdateForm = () => {
-  const { project, selectedForm, setSelectedForm } = useProject();
+  const { project, selectedForm, setSelectedForm, form } = useProject();
 
   const [updating, setUpdating] = useState(false);
   const inputNameRef = useRef<HTMLInputElement>(null);
 
   const saveForm = async () => {
-    if (!selectedForm || !project) return;
+    if (!selectedForm || !project || !form) return;
 
     const newName = inputNameRef.current?.value.trim() ?? "";
-    if (newName === "" || newName === selectedForm.name) {
+    if (newName === "" || newName === form.name) {
       // nothing to change
       return;
     }
 
     setUpdating(true);
 
-    const r = await fetch(`/api/forms/${project.key}/${selectedForm.key}`, {
+    const r = await fetch(`/api/forms/${project.key}/${form.key}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -55,7 +55,7 @@ const FormSettingsUpdateForm = () => {
             id="name"
             className="w-full rounded-xl border py-2 px-4 text-sm"
             placeholder="The form in my project"
-            defaultValue={selectedForm?.name}
+            defaultValue={form?.name}
             ref={inputNameRef}
           />
           <button
