@@ -144,6 +144,8 @@ func main() {
 	app.Post("/:formid", func(c *fiber.Ctx) error {
 		formId := c.Params("formid")
 
+		fmt.Println(c.GetReqHeaders())
+
 		formsBase, err := lib.FormsBase()
 		if err != nil {
 			return c.Status(500).JSON(lib.APIResponse{
@@ -241,6 +243,11 @@ func main() {
 			CreatedAt: time.Now().Unix(),
 		}
 
+		// check if project allows files
+		if !projectForm.AllowFiles {
+			return c.Redirect(lib.RedirectFilesNotAllowed())
+		}
+
 		if len(files) > 0 {
 			for key, files := range files {
 				rfiles := []*types.ResponseFile{}
@@ -281,11 +288,12 @@ func main() {
 
 		formDb.Put(response)
 
-		return c.JSON(fiber.Map{
-			"form":  body,
-			"files": files,
-		})
+		// reidrect to thank you page
+		if projectForm.RedirectUrl != "" {
+			return c.Redirect(projectForm.RedirectUrl)
+		}
 
+		return c.Redirect(lib.RedirectThankYou())
 	})
 
 	log.Fatal(app.Listen(":8080"))
