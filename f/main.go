@@ -15,11 +15,14 @@ import (
 	"github.com/TheBoringDude/phurma/f/types"
 	"github.com/deta/deta-go/service/drive"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/segmentio/ksuid"
 )
 
 func main() {
 	app := fiber.New()
+
+	app.Use(cors.New())
 
 	// handling file downloads from response
 	app.Get("/files/:formId/:responseId/:fileKey/:fileId/:filename", func(c *fiber.Ctx) error {
