@@ -17,7 +17,7 @@ const CopyForm = () => {
   };
 
   return (
-    <div className="text-right">
+    <div className="m-1">
       <div className="inline-flex items-center">
         <p className="text-sm text-gray-700">{form?.url}</p>
 

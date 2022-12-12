@@ -38,6 +38,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <hr className="mb-3" />
 
       <div className="mx-auto w-5/6 ">{children}</div>
+
+      <footer className="mt-24">{/* TODO: add some footer in here */}</footer>
     </>
   );
 };

@@ -12,11 +12,11 @@ const ListResponse = ({ responses, keys }: ListResponseProps) => {
   const { form } = useProject();
 
   return (
-    <>
+    <div className="mb-4 mt-8">
       {responses.length == 0 ? (
         <p className="text-gray-700">No submissions received yet...</p>
       ) : (
-        <div className="my-4 mt-8 rounded-xl border">
+        <div className="rounded-xl border">
           <div className="my-8 overflow-auto">
             <table className="w-full table-auto border-collapse overflow-auto text-left">
               <thead>
@@ -84,7 +84,7 @@ const ListResponse = ({ responses, keys }: ListResponseProps) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
