@@ -1,13 +1,18 @@
-# phurma
+<div align="center">
+<img src="./assets/banner.png">
 
-Self-manage and integrate your forms through api.
+<h1>phurma</h1>
 
-Application is built for Deta Space.
+<p>Self-manage and integrate your forms through api.</p>
+
+<p>Application is built for Deta Space.</p>
+
+</div>
 
 App is still in **very early-stages of development** so expect to have many bugs and stuff not working as expected.
 
 **App Screenshot**
-![Screenshot](./screenshot.png)
+![Screenshot](./assets/screenshot.png)
 
 ## Project Structure
 
@@ -40,7 +45,9 @@ air
 ## To Be Implemented
 
 - Form Integrations
-  - Webhooks
+  - Webhooks (Discord webhook)
+  - Email (if possible)
+  - etc...
 - Custom form urls (ex: `/f/my-form`)
 - Other ways to view responses
 - Other options on saving files (GoogleDrive, OneDrive, etc...)
