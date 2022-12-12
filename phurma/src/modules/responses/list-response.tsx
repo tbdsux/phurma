@@ -43,7 +43,7 @@ const ListResponse = ({ responses, keys }: ListResponseProps) => {
                         ) : (
                           <td className="border-b px-6 py-3" key={x}>
                             <div className="flex flex-col">
-                              {r.files[x].map((f) => (
+                              {r.files[x]?.map((f) => (
                                 <div
                                   key={f.file_id}
                                   className="my-0.5 inline-flex items-center"
