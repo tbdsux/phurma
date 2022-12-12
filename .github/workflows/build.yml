@@ -7,6 +7,9 @@ jobs:
     strategy:
       matrix:
         node-version: [16]
+    defaults:
+      run:
+        working-directory: ./phurma
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
@@ -24,6 +27,9 @@ jobs:
 
   build-forms-api:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./f
     steps:
       - uses: actions/checkout@v3
       - name: Setup GoLang
