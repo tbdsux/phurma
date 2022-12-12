@@ -3,13 +3,13 @@ import { useState } from "react";
 import { useProject } from "../projects/context";
 
 const CopyForm = () => {
-  const { selectedForm } = useProject();
+  const { form } = useProject();
 
   const [copied, setCopied] = useState(false);
 
   const copyFormUrl = () => {
     setCopied(true);
-    navigator.clipboard.writeText(selectedForm?.url ?? "");
+    navigator.clipboard.writeText(form?.url ?? "");
 
     setTimeout(() => {
       setCopied(false);
@@ -19,7 +19,7 @@ const CopyForm = () => {
   return (
     <div className="text-right">
       <div className="inline-flex items-center">
-        <p className="text-sm text-gray-700">{selectedForm?.url}</p>
+        <p className="text-sm text-gray-700">{form?.url}</p>
 
         <button
           onClick={copyFormUrl}

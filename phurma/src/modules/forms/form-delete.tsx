@@ -8,17 +8,17 @@ import useOpen from "../../hooks/useOpen";
 import { useProject } from "../projects/context";
 
 const FormDelete = () => {
-  const { selectedForm, project, setSelectedForm } = useProject();
+  const { selectedForm, project, setSelectedForm, form } = useProject();
   const { open, close, isOpen } = useOpen();
 
   const [removing, setRemoving] = useState(false);
 
   const removeForm = async () => {
-    if (!selectedForm || !project) return;
+    if (!selectedForm || !project || !form) return;
 
     setRemoving(true);
 
-    const r = await fetch(`/api/forms/${project.key}/${selectedForm.key}`, {
+    const r = await fetch(`/api/forms/${project.key}/${form.key}`, {
       method: "DELETE",
     });
 
@@ -36,7 +36,7 @@ const FormDelete = () => {
     close();
   };
 
-  if (!selectedForm) {
+  if (!form || !selectedForm) {
     return <></>;
   }
 
@@ -53,7 +53,7 @@ const FormDelete = () => {
         <Dialog.Description className="text-gray-600">
           Are you sure you want remove form{" "}
           <span className="5 rounded-md bg-gray-200 py-0 px-1">
-            {selectedForm.name}
+            {form.name}
           </span>
           ? <br />
           Everything will be removed including the responses and files under it.
