@@ -187,6 +187,13 @@ func main() {
 
 			body = lib.ParseKValues(form.Value)
 			files = form.File
+
+			if len(files) > 0 {
+				// check if project allows files
+				if !projectForm.AllowFiles {
+					return c.Redirect(lib.RedirectFilesNotAllowed())
+				}
+			}
 		}
 
 		if contentType == "application/x-www-form-urlencoded" {
@@ -244,11 +251,6 @@ func main() {
 			Content:   body,
 			Files:     map[string][]*types.ResponseFile{},
 			CreatedAt: time.Now().Unix(),
-		}
-
-		// check if project allows files
-		if !projectForm.AllowFiles {
-			return c.Redirect(lib.RedirectFilesNotAllowed())
 		}
 
 		if len(files) > 0 {
