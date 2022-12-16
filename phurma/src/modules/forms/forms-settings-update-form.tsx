@@ -3,9 +3,11 @@ import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { useProject } from "../projects/context";
+import { useForms } from "./context";
 
 const FormSettingsUpdateForm = () => {
-  const { project, selectedForm, setSelectedForm, form } = useProject();
+  const { project } = useProject();
+  const { selectedForm, setSelectedForm, form } = useForms();
 
   const [updating, setUpdating] = useState(false);
   const inputNameRef = useRef<HTMLInputElement>(null);

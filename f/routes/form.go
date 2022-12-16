@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/TheBoringDude/phurma/f/integrations"
 	"github.com/TheBoringDude/phurma/f/lib"
 	"github.com/TheBoringDude/phurma/f/types"
 	"github.com/deta/deta-go/service/drive"
@@ -161,7 +162,10 @@ var FormParse = func(c *fiber.Ctx) error {
 		}
 	}
 
-	formDb.Put(response)
+	key, _ := formDb.Put(response)
+
+	// handle integrations
+	integrations.Handle(formId, key, response, projectForm)
 
 	// reidrect to thank you page
 	if projectForm.RedirectUrl != "" {

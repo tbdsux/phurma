@@ -1,5 +1,5 @@
 import { ArrowDownTrayIcon } from "@heroicons/react/20/solid";
-import { useProject } from "../projects/context";
+import { useForms } from "../forms/context";
 import DeleteResponse from "./delete-response";
 import { ResponseItem } from "./types";
 
@@ -9,7 +9,7 @@ interface ListResponseProps {
 }
 
 const ListResponse = ({ responses, keys }: ListResponseProps) => {
-  const { form } = useProject();
+  const { form } = useForms();
 
   return (
     <div className="mb-4 mt-8">

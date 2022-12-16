@@ -1,10 +1,10 @@
 import { Cog8ToothIcon } from "@heroicons/react/20/solid";
 import useOpen from "../../hooks/useOpen";
-import { useProject } from "../projects/context";
+import { useForms } from "./context";
 import FormSettingsModal from "./form-settings-modal";
 
 const FormSettings = () => {
-  const { selectedForm } = useProject();
+  const { selectedForm } = useForms();
   const { open, close, isOpen } = useOpen();
 
   if (!selectedForm) {

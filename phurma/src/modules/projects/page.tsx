@@ -6,6 +6,7 @@ import DashboardLayout from "../../layouts/dashboard";
 import { fetcher } from "../../lib/fetcher";
 import { APIResponse } from "../../typings/api";
 import FormsContainer from "../forms/container";
+import FormsProvider from "../forms/context";
 import FormActions from "../forms/form-actions";
 import ProjectsProvider from "./context";
 import { ProjectProps } from "./types";
@@ -40,15 +41,17 @@ const ProjectPage = ({ statusCode, data: projectData }: ProjectPageProps) => {
       <ProjectsProvider project={data.data}>
         <NextSeo title={`${data.data?.name} | Project - phurma`} />
 
-        <div className="mt-6 flex flex-wrap items-center justify-between">
-          <h3 className="text-xl font-extrabold tracking-tight text-rose-500">
-            {data.data?.name}
-          </h3>
+        <FormsProvider>
+          <div className="mt-6 flex flex-wrap items-center justify-between">
+            <h3 className="text-xl font-extrabold tracking-tight text-rose-500">
+              {data.data?.name}
+            </h3>
 
-          <FormActions />
-        </div>
+            <FormActions />
+          </div>
 
-        <FormsContainer />
+          <FormsContainer />
+        </FormsProvider>
       </ProjectsProvider>
     </DashboardLayout>
   );

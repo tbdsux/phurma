@@ -2,14 +2,15 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { useProject } from "../projects/context";
+import { useForms } from "./context";
 
 const FormsMenu = () => {
+  const { forms } = useProject();
   const {
-    forms,
     selectedForm: selected,
     setSelectedForm: setSelected,
     form,
-  } = useProject();
+  } = useForms();
 
   return (
     <div className="m-1 w-72">

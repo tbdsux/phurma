@@ -6,9 +6,11 @@ import { mutate } from "swr";
 import BaseModal from "../../components/Modal";
 import useOpen from "../../hooks/useOpen";
 import { useProject } from "../projects/context";
+import { useForms } from "./context";
 
 const FormDelete = () => {
-  const { selectedForm, project, setSelectedForm, form } = useProject();
+  const { project } = useProject();
+  const { selectedForm, setSelectedForm, form } = useForms();
   const { open, close, isOpen } = useOpen();
 
   const [removing, setRemoving] = useState(false);

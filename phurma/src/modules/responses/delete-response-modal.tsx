@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import BaseModal from "../../components/Modal";
+import { useForms } from "../forms/context";
 import { useProject } from "../projects/context";
 
 interface DeleteResponseModalProps {
@@ -17,7 +18,8 @@ const DeleteResponseModal = ({
   closeModal,
   responseId,
 }: DeleteResponseModalProps) => {
-  const { project, selectedForm, form } = useProject();
+  const { project } = useProject();
+  const { selectedForm, form } = useForms();
   const [deleting, setDeleting] = useState(false);
 
   const deleteResponse = async () => {

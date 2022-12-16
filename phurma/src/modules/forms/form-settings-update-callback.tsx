@@ -4,9 +4,11 @@ import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
 import { useProject } from "../projects/context";
+import { useForms } from "./context";
 
 const FormSettingsUpdateCallback = () => {
-  const { project, selectedForm, setSelectedForm, forms, form } = useProject();
+  const { project } = useProject();
+  const { selectedForm, form } = useForms();
 
   const [updating, setUpdating] = useState(false);
 
