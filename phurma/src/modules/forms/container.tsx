@@ -3,6 +3,7 @@ import { useProject } from "../projects/context";
 import ListResponse from "../responses/list-response";
 import { useForms } from "./context";
 import CopyForm from "./copy-form";
+import FormIntegrations from "./integrations";
 import FormUsage from "./usage";
 import useGetForm from "./useGetForm";
 
@@ -19,7 +20,7 @@ const FormsContainer = () => {
             <Tab.List className="rounded-lg bg-gray-100">
               <Tab
                 className={({ selected }) =>
-                  `mx-0.5 rounded-lg px-3 py-1 text-sm  ${
+                  `mx-0.5 rounded-lg px-5 py-1 text-sm  ${
                     selected
                       ? "bg-gray-500 text-white"
                       : "bg-gray-100 text-gray-600"
@@ -31,7 +32,19 @@ const FormsContainer = () => {
 
               <Tab
                 className={({ selected }) =>
-                  `mx-0.5 rounded-lg px-3 py-1 text-sm  ${
+                  `mx-0.5 rounded-lg px-5 py-1 text-sm  ${
+                    selected
+                      ? "bg-gray-500 text-white"
+                      : "bg-gray-100 text-gray-600"
+                  }`
+                }
+              >
+                Integrations
+              </Tab>
+
+              <Tab
+                className={({ selected }) =>
+                  `mx-0.5 rounded-lg px-5 py-1 text-sm  ${
                     selected
                       ? "bg-gray-500 text-white"
                       : "bg-gray-100 text-gray-600"
@@ -55,6 +68,10 @@ const FormsContainer = () => {
               ) : (
                 <></>
               )}
+            </Tab.Panel>
+
+            <Tab.Panel>
+              <FormIntegrations />
             </Tab.Panel>
 
             <Tab.Panel>
