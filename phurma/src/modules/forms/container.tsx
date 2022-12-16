@@ -1,12 +1,14 @@
 import { Tab } from "@headlessui/react";
 import { useProject } from "../projects/context";
 import ListResponse from "../responses/list-response";
+import { useForms } from "./context";
 import CopyForm from "./copy-form";
 import FormUsage from "./usage";
 import useGetForm from "./useGetForm";
 
 const FormsContainer = () => {
-  const { project, form } = useProject();
+  const { project } = useProject();
+  const { form } = useForms();
   const responses = useGetForm(project?.key, form?.key);
 
   return (

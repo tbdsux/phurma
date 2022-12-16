@@ -1,6 +1,6 @@
 import { Dialog } from "@headlessui/react";
 import BaseModal from "../../components/Modal";
-import { useProject } from "../projects/context";
+import { useForms } from "./context";
 import FormSettingsUpdateCallback from "./form-settings-update-callback";
 import FormSettingsUpdateForm from "./forms-settings-update-form";
 
@@ -10,7 +10,7 @@ interface FormSettingsModalProps {
 }
 
 const FormSettingsModal = ({ isOpen, closeModal }: FormSettingsModalProps) => {
-  const { selectedForm } = useProject();
+  const { selectedForm } = useForms();
 
   return (
     <BaseModal

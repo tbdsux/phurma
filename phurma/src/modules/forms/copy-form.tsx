@@ -1,9 +1,9 @@
 import { CheckIcon, ClipboardDocumentIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
-import { useProject } from "../projects/context";
+import { useForms } from "./context";
 
 const CopyForm = () => {
-  const { form } = useProject();
+  const { form } = useForms();
 
   const [copied, setCopied] = useState(false);
 
