@@ -26,6 +26,15 @@ func FormsBase() (*base.Base, error) {
 	return base.New(deta, "ProjectForms")
 }
 
+func FormsDiscordIntegration() (*base.Base, error) {
+	deta, err := deta.New()
+	if err != nil {
+		return nil, err
+	}
+
+	return base.New(deta, "FormsDiscordIntegration")
+}
+
 func GetFormDB(formId string) (*base.Base, error) {
 	deta, err := deta.New()
 	if err != nil {
