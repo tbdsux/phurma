@@ -2,10 +2,10 @@ import { PencilSquareIcon } from "@heroicons/react/20/solid";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
-import { useProject } from "../projects/context";
-import { useForms } from "./context";
+import { useProject } from "../../projects/context";
+import { useForms } from "../context";
 
-const FormSettingsUpdateForm = () => {
+const UpdateFormName = () => {
   const { project } = useProject();
   const { selectedForm, setSelectedForm, form } = useForms();
 
@@ -45,35 +45,31 @@ const FormSettingsUpdateForm = () => {
   };
 
   return (
-    <div>
-      <div className="my-2 flex flex-col">
-        <label htmlFor="name" className="text-sm text-gray-700">
-          Form Name
-        </label>
-        <div className="flex items-center">
-          <input
-            type="text"
-            name="name"
-            id="name"
-            className="w-full rounded-xl border py-2 px-4 text-sm"
-            placeholder="The form in my project"
-            defaultValue={form?.name}
-            ref={inputNameRef}
-          />
-          <button
-            onClick={saveForm}
-            disabled={updating}
-            className="ml-2 inline-flex items-center rounded-xl bg-rose-400 py-2 px-8 font-medium text-white duration-300 hover:bg-rose-500 disabled:opacity-80 disabled:hover:bg-rose-400 "
-          >
-            <PencilSquareIcon className="mr-1 h-4 w-4" aria-hidden="true" />
-            <small className="uppercase">
-              {updating ? "Saving..." : "Save"}
-            </small>
-          </button>
-        </div>
+    <div className="my-2 flex w-full flex-col">
+      <label htmlFor="name" className="text-sm text-gray-700">
+        Form Name
+      </label>
+      <div className="flex items-center">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          className="w-full rounded-xl border py-2 px-4 text-sm"
+          placeholder="The form in my project"
+          defaultValue={form?.name}
+          ref={inputNameRef}
+        />
+        <button
+          onClick={saveForm}
+          disabled={updating}
+          className="ml-2 inline-flex items-center rounded-xl bg-rose-400 py-2 px-8 font-medium text-white duration-300 hover:bg-rose-500 disabled:opacity-80 disabled:hover:bg-rose-400 "
+        >
+          <PencilSquareIcon className="mr-1 h-4 w-4" aria-hidden="true" />
+          <small className="uppercase">{updating ? "Saving..." : "Save"}</small>
+        </button>
       </div>
     </div>
   );
 };
 
-export default FormSettingsUpdateForm;
+export default UpdateFormName;

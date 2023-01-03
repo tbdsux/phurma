@@ -3,10 +3,10 @@ import { Cog8ToothIcon } from "@heroicons/react/20/solid";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
-import { useProject } from "../projects/context";
-import { useForms } from "./context";
+import { useProject } from "../../projects/context";
+import { useForms } from "../context";
 
-const FormSettingsUpdateCallback = () => {
+const UpdateFormMisc = () => {
   const { project } = useProject();
   const { selectedForm, form } = useForms();
 
@@ -48,9 +48,7 @@ const FormSettingsUpdateCallback = () => {
   };
 
   return (
-    <div>
-      <strong className="text-gray-600">Miscellaneous Settings</strong>
-
+    <div className="my-2">
       <div className="my-3 flex flex-col">
         <label htmlFor="callback" className="text-sm text-gray-700">
           Form submit redirect or callback url (If empty, will redirect to
@@ -102,4 +100,4 @@ const FormSettingsUpdateCallback = () => {
   );
 };
 
-export default FormSettingsUpdateCallback;
+export default UpdateFormMisc;

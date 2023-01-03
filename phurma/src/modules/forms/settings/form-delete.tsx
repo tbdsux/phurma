@@ -3,10 +3,10 @@ import { TrashIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { mutate } from "swr";
-import BaseModal from "../../components/Modal";
-import useOpen from "../../hooks/useOpen";
-import { useProject } from "../projects/context";
-import { useForms } from "./context";
+import BaseModal from "../../../components/Modal";
+import useOpen from "../../../hooks/useOpen";
+import { useProject } from "../../projects/context";
+import { useForms } from "../context";
 
 const FormDelete = () => {
   const { project } = useProject();
@@ -78,9 +78,10 @@ const FormDelete = () => {
       <button
         onClick={open}
         title="Delete Form"
-        className="m-1 rounded-lg bg-red-400 p-2 text-white duration-300 hover:bg-red-500"
+        className="m-1 inline-flex items-center rounded-lg bg-red-400 p-2 text-white duration-300 hover:bg-red-500"
       >
         <TrashIcon aria-hidden="true" className="h-4 w-4" />
+        <span className="ml-1 text-sm font-medium uppercase">DELETE</span>
       </button>
     </>
   );

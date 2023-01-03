@@ -4,6 +4,7 @@ import ListResponse from "../responses/list-response";
 import { useForms } from "./context";
 import CopyForm from "./copy-form";
 import FormIntegrations from "./integrations";
+import FormSettings from "./settings";
 import FormUsage from "./usage";
 import useGetForm from "./useGetForm";
 
@@ -17,7 +18,7 @@ const FormsContainer = () => {
       {project && form ? (
         <Tab.Group>
           <div className="m-1 flex flex-wrap items-center justify-between">
-            <Tab.List className="rounded-lg bg-gray-100">
+            <Tab.List className="overflow-auto whitespace-nowrap rounded-lg bg-gray-100 text-center">
               <Tab
                 className={({ selected }) =>
                   `mx-0.5 rounded-lg px-5 py-1 text-sm  ${
@@ -51,6 +52,18 @@ const FormsContainer = () => {
                   }`
                 }
               >
+                Settings
+              </Tab>
+
+              <Tab
+                className={({ selected }) =>
+                  `mx-0.5 rounded-lg px-5 py-1 text-sm  ${
+                    selected
+                      ? "bg-gray-500 text-white"
+                      : "bg-gray-100 text-gray-600"
+                  }`
+                }
+              >
                 Usage
               </Tab>
             </Tab.List>
@@ -72,6 +85,10 @@ const FormsContainer = () => {
 
             <Tab.Panel>
               <FormIntegrations />
+            </Tab.Panel>
+
+            <Tab.Panel>
+              <FormSettings />
             </Tab.Panel>
 
             <Tab.Panel>

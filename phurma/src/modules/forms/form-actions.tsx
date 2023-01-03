@@ -1,14 +1,10 @@
-import FormDelete from "./form-delete";
-import FormSettings from "./form-settings";
 import FormsMenu from "./forms-menu";
 import NewForm from "./new-form";
 
 const FormActions = () => {
   return (
-    <div className="inline-flex flex-wrap items-center justify-between">
+    <div className="flex w-full flex-wrap items-center justify-between md:inline-flex md:w-auto">
       <FormsMenu />
-      <FormSettings />
-      <FormDelete />
       <NewForm />
     </div>
   );
