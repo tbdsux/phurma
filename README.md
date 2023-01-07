@@ -45,9 +45,12 @@ air
 ## To Be Implemented
 
 - Form Integrations
-  - Webhooks (Discord webhook)
+  - Webhooks
+    - ~~Discord~~
   - Email (if possible)
   - etc...
+- Export responses
+  - ~~To CSV~~
 - Custom form urls (ex: `/f/my-form`)
 - Other ways to view responses
 - Other options on saving files (GoogleDrive, OneDrive, etc...)
