@@ -2,7 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: "standalone"
-}
+  output: "standalone",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.simpleicons.org",
+      },
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

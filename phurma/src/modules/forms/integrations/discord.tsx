@@ -1,5 +1,7 @@
+import { Switch } from "@headlessui/react";
 import { CheckCircleIcon, PaperAirplaneIcon } from "@heroicons/react/20/solid";
-import { useRef, useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import { fetcher } from "../../../lib/fetcher";
@@ -60,6 +62,7 @@ const DiscordIntegration = () => {
 
   const [testing, setTesting] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [enabled, setEnabled] = useState(data?.data?.enabled ?? false);
   const inputWebhookUrl = useRef<HTMLInputElement>(null);
 
   const saveWebhookUrl = async () => {
@@ -80,6 +83,7 @@ const DiscordIntegration = () => {
         },
         body: JSON.stringify({
           webhookUrl,
+          enabled,
         }),
       }
     );
@@ -129,11 +133,53 @@ const DiscordIntegration = () => {
     }
   };
 
+  useEffect(() => {
+    if (data?.data && form) {
+      setEnabled(data.data.enabled);
+      if (inputWebhookUrl.current) {
+        inputWebhookUrl.current.value = data.data.webhookUrl;
+      }
+      return;
+    }
+
+    setEnabled(false);
+    if (inputWebhookUrl.current) {
+      inputWebhookUrl.current.value = "";
+    }
+  }, [data, form]);
+
   return (
-    <div className="my-3 mx-auto w-11/12">
-      <h5 className="text-lg font-medium uppercase text-gray-700">
-        Discord Webhook
-      </h5>
+    <div className="my-5 mx-auto w-11/12">
+      <div className="flex flex-wrap items-center justify-between">
+        <h5 className="inline-flex items-center text-lg font-black uppercase text-gray-700">
+          <Image
+            height="32"
+            width="32"
+            src="https://cdn.simpleicons.org/discord/374151"
+            alt="Discord"
+            className="mr-2"
+          />
+          Discord Webhook
+        </h5>
+
+        <div className="inline-flex items-center">
+          <span className="mr-2 text-sm">Enable Integration?</span>
+
+          <Switch
+            checked={enabled}
+            onChange={setEnabled}
+            className={`${enabled ? "bg-rose-500" : "bg-rose-300"}
+          relative inline-flex h-[20px] w-[32px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+          >
+            <span className="sr-only">Use setting</span>
+            <span
+              aria-hidden="true"
+              className={`${enabled ? "translate-x-3" : "translate-x-0"}
+            pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+            />
+          </Switch>
+        </div>
+      </div>
 
       <div className="mt-2">
         <div className="flex flex-col">

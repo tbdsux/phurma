@@ -3,13 +3,14 @@ import { ObjectType } from "deta/dist/types/types/basic";
 import {
   discordIntegrationBase,
   formsBase,
-  projectBase,
+  projectBase
 } from "../../../../../lib/deta";
 import { join } from "../../../../../lib/utils";
 import { DiscordIntegrationProps } from "../../../../../modules/forms/integrations/types";
 
 interface Body {
   webhookUrl?: string;
+  enabled?: boolean;
 }
 
 const discordIntegration = new Router()
@@ -68,25 +69,20 @@ const discordIntegration = new Router()
       return;
     }
 
-    const { webhookUrl }: Body = req.body;
+    const { webhookUrl, enabled }: Body = req.body;
     if (webhookUrl == null) {
       res.status(400).json({ error: true, message: "Webhook url is null." });
       return;
     }
 
-    if (webhookUrl == "") {
-      // remove integration if url is empty
-      await discordIntegrationBase.delete(formId);
-    } else {
-      // otherwise create it
-      const integration: DiscordIntegrationProps = {
-        webhookUrl,
-        key: formId,
-      };
+    // update integration details
+    const integration: DiscordIntegrationProps = {
+      key: formId,
+      enabled: enabled ? enabled : false,
+      webhookUrl: webhookUrl ?? "",
+    };
 
-      await discordIntegrationBase.put({ ...integration });
-    }
-
+    await discordIntegrationBase.put({ ...integration });
     res.status(200).json({
       error: false,
       message: "Successfully updated form's discord integration.",

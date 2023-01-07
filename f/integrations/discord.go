@@ -16,6 +16,7 @@ import (
 
 type DiscordIntegration struct {
 	Key        string `json:"key"`
+	Enabled    bool   `json:"enabled"`
 	WebhookUrl string `json:"webhookUrl"`
 }
 
@@ -100,10 +101,17 @@ func DiscordSendWebhook(webhookUrl string, responseKey string, response types.Re
 	return err
 }
 
+// Handle sending discord embeds to the webhook url if exists. Will skip
+// if integration does not exist, is disabled or webhookUrl is empty.
 func HandleDiscord(formId string, responseKey string, response types.Response, form types.Form) {
 	discord := GetDiscordIntegration(formId)
 	if discord == nil {
 		// integration does not exist, so we skip
+		return
+	}
+
+	// integration is disabled or empty discord webhook url
+	if !discord.Enabled || discord.WebhookUrl == "" {
 		return
 	}
 
