@@ -9,6 +9,8 @@ micros:
     primary: true
     public_routes:
       - "/f/*"
+      - "/files-not-allowed"
+      - "/thank-you"
 
   - name: forms-api
     src: ./f
