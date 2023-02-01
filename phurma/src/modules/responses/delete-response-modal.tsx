@@ -46,6 +46,8 @@ const DeleteResponseModal = ({
 
     toast.success("Successfully removed the response.");
     mutate(`/api/forms/${project.key}/${form.key}`);
+
+    closeModal();
   };
 
   return (

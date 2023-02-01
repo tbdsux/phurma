@@ -1,14 +1,17 @@
+import { Listbox, Transition } from "@headlessui/react";
 import {
-  ArrowDownTrayIcon,
   ArrowPathIcon,
-  DocumentArrowDownIcon,
+  CheckIcon,
+  ChevronUpDownIcon,
+  DocumentArrowDownIcon
 } from "@heroicons/react/20/solid";
 import fileDownload from "js-file-download";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { mutate } from "swr";
 import { useForms } from "../forms/context";
 import { useProject } from "../projects/context";
-import DeleteResponse from "./delete-response";
+import ResponsesShowList from "./show-list";
+import ResponsesShowTable from "./show-table";
 import { ResponseItem } from "./types";
 
 interface ListResponseProps {
@@ -16,11 +19,39 @@ interface ListResponseProps {
   keys: Record<string, "form" | "file">;
 }
 
+interface ListOptionsProps {
+  name: string;
+  id: string;
+}
+
+type SortOptionProps = ListOptionsProps;
+
+const sortOptions: SortOptionProps[] = [
+  {
+    name: "Latest First",
+    id: "latest",
+  },
+  {
+    name: "Start from First",
+    id: "first",
+  },
+];
+
+const listOptions: ListOptionsProps[] = [
+  { name: "Show as Table", id: "table" },
+  {
+    name: "Individual List",
+    id: "list",
+  },
+];
+
 const ListResponse = ({ responses, keys }: ListResponseProps) => {
   const { project } = useProject();
   const { form } = useForms();
 
   const [refreshing, setRefreshing] = useState(false);
+  const [selected, setSelected] = useState(listOptions[0]);
+  const [selectedSort, setSelectedSort] = useState(sortOptions[0]);
 
   // refresh the responses
   const refreshResponses = async () => {
@@ -63,92 +94,150 @@ const ListResponse = ({ responses, keys }: ListResponseProps) => {
         <p className="text-gray-700">No submissions received yet...</p>
       ) : (
         <div>
-          <div className="mx-4 my-2 flex flex-wrap items-center justify-end">
-            <button
-              disabled={refreshing}
-              onClick={refreshResponses}
-              className="m-1 inline-flex items-center rounded-lg bg-gray-400 py-1 px-4 text-xs text-white duration-300 hover:bg-gray-500 lg:text-sm"
-            >
-              <ArrowPathIcon className="mr-1 h-4 w-4" />
-              {refreshing ? "Refreshing..." : "Refresh"}
-            </button>
+          <div className="flex flex-col items-center justify-between md:flex-row">
+            <div className="w-full md:w-72">
+              <Listbox value={selected} onChange={setSelected}>
+                <div className="relative">
+                  <Listbox.Button className="relative w-full cursor-default rounded-lg bg-gray-100 py-2 pl-3 pr-10 text-left text-sm text-gray-700 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300">
+                    <span className="block truncate">{selected.name}</span>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <ChevronUpDownIcon
+                        className="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </Listbox.Button>
+                  <Transition
+                    as={Fragment}
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Listbox.Options className="absolute z-30 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {listOptions.map((opt, idx) => (
+                        <Listbox.Option
+                          key={idx}
+                          className={({ active }) =>
+                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                              active
+                                ? "bg-rose-100 text-rose-900"
+                                : "text-gray-900"
+                            }`
+                          }
+                          value={opt}
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span
+                                className={`block truncate ${
+                                  selected ? "font-medium" : "font-normal"
+                                }`}
+                              >
+                                {opt.name}
+                              </span>
+                              {selected ? (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-rose-600">
+                                  <CheckIcon
+                                    className="h-4 w-4"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              ) : null}
+                            </>
+                          )}
+                        </Listbox.Option>
+                      ))}
+                    </Listbox.Options>
+                  </Transition>
+                </div>
+              </Listbox>
+            </div>
 
-            <button
-              onClick={exportResponses}
-              className="m-1 inline-flex items-center rounded-lg bg-gray-100 py-1 px-4 text-xs text-gray-900 duration-300 hover:bg-gray-200 lg:text-sm "
-            >
-              <DocumentArrowDownIcon className="mr-1 h-4 w-4" />
-              Export to CSV
-            </button>
-          </div>
+            <div className="mx-4 my-2 flex flex-wrap items-center justify-center">
+              <button
+                disabled={refreshing}
+                onClick={refreshResponses}
+                className="m-1 inline-flex items-center rounded-lg bg-gray-400 py-1 px-4 text-xs text-white duration-300 hover:bg-gray-500 lg:text-sm"
+              >
+                <ArrowPathIcon className="mr-1 h-4 w-4" />
+                {refreshing ? "Refreshing..." : "Refresh"}
+              </button>
 
-          <div className="rounded-xl border">
-            <div className="my-8 overflow-auto">
-              <table className="w-full table-auto border-collapse overflow-auto text-left">
-                <thead>
-                  <tr className="p-6">
-                    {Object.keys(keys).map((x) => (
-                      <th className="border-b px-6 py-4" key={x}>
-                        {x}
-                      </th>
-                    ))}
-                    <th className="border-b"></th>
-                  </tr>
-                </thead>
+              <button
+                onClick={exportResponses}
+                className="m-1 inline-flex items-center rounded-lg bg-gray-100 py-1 px-4 text-xs text-gray-900 duration-300 hover:bg-gray-200 lg:text-sm "
+              >
+                <DocumentArrowDownIcon className="mr-1 h-4 w-4" />
+                Export to CSV
+              </button>
 
-                <tbody>
-                  {responses
-                    .sort((x, y) => y.created_at - x.created_at)
-                    .map((r) => (
-                      <tr key={r.key} className="p-6">
-                        {Object.keys(keys).map((x) =>
-                          keys[x] === "form" ? (
-                            <td className="border-b px-6 py-3" key={x}>
-                              {r.content[x]}
-                            </td>
-                          ) : (
-                            <td className="border-b px-6 py-3" key={x}>
-                              <div className="flex flex-col">
-                                {r.files[x]?.map((f) => (
-                                  <div
-                                    key={f.file_id}
-                                    className="my-0.5 inline-flex items-center"
-                                  >
-                                    <p className="truncate rounded-xl bg-gray-200 px-2 py-0.5 text-sm">
-                                      {f.filename}
-                                    </p>
-                                    <a
-                                      download={f.filename}
-                                      href={`${form?.url.replace(
-                                        form.key,
-                                        ""
-                                      )}files/${form?.key}/${r.key}/${x}/${
-                                        f.file_id
-                                      }/${f.filename}`}
-                                      className="ml-2 rounded-md bg-gray-400 p-0.5 text-white duration-300 hover:bg-gray-500"
-                                      title="Download File"
-                                    >
-                                      <ArrowDownTrayIcon
-                                        aria-hidden="true"
-                                        className="h-3 w-3"
-                                      />
-                                    </a>
-                                  </div>
-                                ))}
-                              </div>
-                            </td>
-                          )
-                        )}
-
-                        <td className="border-b px-3">
-                          <DeleteResponse responseId={r.key} />
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+              <div className="w-56">
+                <Listbox value={selectedSort} onChange={setSelectedSort}>
+                  <div className="relative">
+                    <Listbox.Button className="relative z-20 m-1 w-full cursor-default rounded-lg bg-gray-100 py-1 pl-3 pr-10 text-left text-sm text-gray-700 shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300">
+                      <span className="block truncate">
+                        {selectedSort.name}
+                      </span>
+                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                        <ChevronUpDownIcon
+                          className="h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                    </Listbox.Button>
+                    <Transition
+                      as={Fragment}
+                      leave="transition ease-in duration-100"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                      <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-sm shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        {sortOptions.map((opt, idx) => (
+                          <Listbox.Option
+                            key={idx}
+                            className={({ active }) =>
+                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                active
+                                  ? "bg-rose-100 text-rose-900"
+                                  : "text-gray-900"
+                              }`
+                            }
+                            value={opt}
+                          >
+                            {({ selected }) => (
+                              <>
+                                <span
+                                  className={`block truncate ${
+                                    selected ? "font-medium" : "font-normal"
+                                  }`}
+                                >
+                                  {opt.name}
+                                </span>
+                                {selected ? (
+                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-rose-600">
+                                    <CheckIcon
+                                      className="h-4 w-4"
+                                      aria-hidden="true"
+                                    />
+                                  </span>
+                                ) : null}
+                              </>
+                            )}
+                          </Listbox.Option>
+                        ))}
+                      </Listbox.Options>
+                    </Transition>
+                  </div>
+                </Listbox>
+              </div>
             </div>
           </div>
+
+          {selected.id == "list" ? (
+            <ResponsesShowList responses={responses} keys={keys} sort={selectedSort.id} />
+          ) : (
+            <ResponsesShowTable responses={responses} keys={keys} sort={selectedSort.id} />
+          )}
         </div>
       )}
     </div>
