@@ -11,6 +11,9 @@ micros:
       - "/f/*"
       - "/files-not-allowed"
       - "/thank-you"
+      - "/_next/*"
+      - "/*.png"
+      - "/manifest.json"
 
   - name: forms-api
     src: ./f
