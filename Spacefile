@@ -14,6 +14,7 @@ micros:
       - "/_next/*"
       - "/*.png"
       - "/manifest.json"
+    dev: pnpm run dev
 
   - name: forms-api
     src: ./f
@@ -25,3 +26,4 @@ micros:
     include:
       - f
     path: f
+    dev: air

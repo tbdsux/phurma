@@ -26,20 +26,10 @@ App is still in **very early-stages of development** so expect to have many bugs
 
 ### Development
 
-The best way to develop this project is having two(2) different terminal instances, one in `phurma` directory and the other in `f` dir.
+Use the space cli to work to run the development instance.
 
-- Main Webapp
-
-```
-# phurma/phurma
-pnpm dev
-```
-
-- Forms and responses api
-
-```
-# phurma/f
-air
+```sh
+space dev
 ```
 
 ## To Be Implemented

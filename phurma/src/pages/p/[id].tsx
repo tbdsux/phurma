@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const apiUrl =
     process.env.NODE_ENV === "development"
-      ? "http://localhost:3000/api"
+      ? "http://localhost:4200/api" // TODO: make this auto-detected (as port might change)
       : `https://${process.env.DETA_SPACE_APP_HOSTNAME}/api`;
 
   const headers: HeadersInit =
